@@ -37,7 +37,7 @@ const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography variant="h5">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -65,7 +65,12 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function MealDetail({ open, handleClose, detail }) {
-  const classes = useStyles();
+  if (detail) {
+    var ingredients = Object.entries(detail?.meals[0]).filter((k) => {
+      if (k[0].includes("strIngredient")) return k[1];
+    });
+    console.log("ingredintes===>", ingredients);
+  }
   return (
     <div>
       <Dialog
@@ -76,22 +81,21 @@ export default function MealDetail({ open, handleClose, detail }) {
         fullWidth
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+          MORE INFORMATION
         </DialogTitle>
         <DialogContent dividers>
-          {detail === undefined && (
-            <div className={classes.root}>
-              <LinearProgress color="secondary" />
-            </div>
+          {detail === undefined && <LinearProgress color="secondary" />}
+          {detail && (
+            <>
+              <Typography variant="h6">INSTRUCTIONS:</Typography>
+              <Typography paragraph>
+                {detail?.meals[0].strInstructions}
+              </Typography>
+              <Typography variant="h6">INGREDIENTS:</Typography>
+              {ingredients?.map((x) => x[1]) + "."}
+            </>
           )}
-
-          <Typography paragraph>{detail?.meals[0].strInstructions}</Typography>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            CLOSE
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

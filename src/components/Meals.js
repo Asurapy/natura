@@ -55,7 +55,6 @@ export default function Meals({ data }) {
     setOpen(true);
   };
   const handleClose = () => {
-    setExpandedData(undefined);
     setOpen(false);
   };
 
@@ -75,17 +74,12 @@ export default function Meals({ data }) {
 
   return (
     <>
-      <Card className={classes.root}>
+      <Card className={classes.root} onClick={handleOpen}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
               {data.strMeal?.charAt(0)}
             </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
           }
           title={data.strMeal}
           // subheader="September 14, 2016"
@@ -95,58 +89,6 @@ export default function Meals({ data }) {
           image={data.strMealThumb}
           title={data.strMeal}
         />
-        {/* <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
-      </CardContent> */}
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-          {/* <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton> */}
-          <Button
-            style={{ marginLeft: "auto" }}
-            onClick={handleOpen}
-            color="primary"
-          >
-            MORE
-          </Button>
-        </CardActions>
-        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            {expandedData === undefined && (
-              <Typography paragraph>Loading...</Typography>
-            )}
-            {expandedData && (
-              <Typography paragraph>
-                Heat oil in a (14- to 16-inch) paella pan or a large, deep
-                skillet over medium-high heat. Add chicken, shrimp and chorizo,
-                and cook, stirring occasionally until lightly browned, 6 to 8
-                minutes. Transfer shrimp to a large plate and set aside, leaving
-                chicken and chorizo in the pan. Add pimentón, bay leaves,
-                garlic, tomatoes, onion, salt and pepper, and cook, stirring
-                often until thickened and fragrant, about 10 minutes. Add
-                saffron broth and remaining 4 1/2 cups chicken broth; bring to a
-                boil.
-              </Typography>
-            )}
-          </CardContent>
-        </Collapse> */}
       </Card>
       <MealDetail open={open} handleClose={handleClose} detail={expandedData} />
     </>
