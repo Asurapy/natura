@@ -44,24 +44,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Meals({ data }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
   const [expandedData, setExpandedData] = React.useState(undefined);
 
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setExpandedData(undefined);
-    getMealsByCategory(data.idMeal);
     setOpen(true);
+    getMealsByCategory(data.idMeal);
   };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleExpandClick = () => {
-    setExpandedData(undefined);
-    getMealsByCategory(data.idMeal);
-    setExpanded(!expanded);
   };
 
   async function getMealsByCategory(idMeal) {
@@ -74,6 +67,7 @@ export default function Meals({ data }) {
 
   return (
     <>
+      <MealDetail open={open} handleClose={handleClose} detail={expandedData} />
       <Card className={classes.root} onClick={handleOpen}>
         <CardHeader
           avatar={
@@ -90,7 +84,6 @@ export default function Meals({ data }) {
           title={data.strMeal}
         />
       </Card>
-      <MealDetail open={open} handleClose={handleClose} detail={expandedData} />
     </>
   );
 }

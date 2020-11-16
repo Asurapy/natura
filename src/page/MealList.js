@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Meals from "../components/Meals";
-import axios from "axios";
+import Typography from "@material-ui/core/Typography";
 
 export default function MealList({ cardsData }) {
   console.log("cardsData===>", cardsData);
+  if (cardsData === null)
+    return (
+      <Typography style={{ marginTop: 20, textAlign: "center" }} variant="h3">
+        NOTHING TO SHOW...
+      </Typography>
+    );
   return (
     <>
       {cardsData && (

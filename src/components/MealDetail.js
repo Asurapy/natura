@@ -69,7 +69,6 @@ export default function MealDetail({ open, handleClose, detail }) {
     var ingredients = Object.entries(detail?.meals[0]).filter((k) => {
       if (k[0].includes("strIngredient")) return k[1];
     });
-    console.log("ingredintes===>", ingredients);
   }
   return (
     <div>

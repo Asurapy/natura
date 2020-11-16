@@ -8,12 +8,11 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import Search from "./Search";
+import { Grid } from "@material-ui/core";
 
-const drawerWidth = 240;
+const drawerWidth = 140;
 
 const useStyles2 = makeStyles((theme) => ({
   root: {
@@ -39,7 +38,15 @@ const useStyles2 = makeStyles((theme) => ({
   },
 }));
 
-export default function CategoryDrawer({ category }) {
+export default function CategoryDrawer({
+  category,
+  setselectedCategory,
+  searchByType,
+  type,
+  search,
+  setType,
+  setSearch,
+}) {
   const classes = useStyles2();
 
   return (
@@ -47,9 +54,22 @@ export default function CategoryDrawer({ category }) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Permanent drawer
-          </Typography>
+          <Grid container>
+            <Grid item xs={12} ls={12} md={2} lg={3} xl={3}>
+              <Typography style={{ marginTop: 12 }} variant="h6">
+                MEALS LIST
+              </Typography>
+            </Grid>
+            <Grid item xs={12} ls={12} md={10} lg={9} xl={9}>
+              <Search
+                searchByType={searchByType}
+                type={type}
+                search={search}
+                setType={setType}
+                setSearch={setSearch}
+              />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -64,12 +84,15 @@ export default function CategoryDrawer({ category }) {
         <Divider />
         <List>
           {category &&
-            category.map((text, index) => (
-              <ListItem button key={text.strCategory}>
-                {/* <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon> */}
-                <ListItemText primary={text.strCategory} />
+            category.map((data, index) => (
+              <ListItem
+                button
+                key={data.strCategory}
+                onClick={(event) => setselectedCategory(event.target.innerText)}
+                button
+                selected={data.selected}
+              >
+                <ListItemText primary={data.strCategory} />
               </ListItem>
             ))}
         </List>
