@@ -28,8 +28,8 @@ export default function Main() {
   const [cardsData, setCardData] = useState();
   const [type, setType] = React.useState("NAME");
   const [search, setSearch] = React.useState("");
-
-  console.log("category===>", category);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(8);
 
   useEffect(() => {
     axios
@@ -78,6 +78,7 @@ export default function Main() {
       return { ...x, selected: false };
     });
     setCategory(data);
+    setCurrentPage(1);
     setCardData(response.data);
   }
 
@@ -92,6 +93,21 @@ export default function Main() {
       }
     });
     setCategory(data);
+    setCurrentPage(1);
+  }
+
+  //Get current cards
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFistCard = indexOfLastCard - cardsPerPage;
+  const currentCards = cardsData?.meals?.slice(
+    indexOfFistCard,
+    indexOfLastCard
+  );
+  const totalCards = cardsData?.meals?.length;
+
+  function paginate(event, value) {
+    console.log("value===>", value);
+    setCurrentPage(value);
   }
 
   return (
@@ -116,7 +132,13 @@ export default function Main() {
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <MealList cardsData={cardsData?.meals} />
+          <MealList
+            cardsData={currentCards}
+            paginate={paginate}
+            currentPage={currentPage}
+            totalCards={totalCards}
+            cardsPerPage={cardsPerPage}
+          />
         </main>
       </Container>
     </>
